@@ -1,108 +1,160 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org"
-       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
-<head th:include="layout :: htmlhead" th:with="title='用户管理'"></head>
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <!--头-->
-    <div th:replace="fragments/head :: header"></div>
+<html xmlns:th="http://www.thymeleaf.org">
 
-    <div class="layui-body" style="margin: 1%">
+<head>
 
-        <form id="userSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    <input id="sysUserName" name="sysUserName" autocomplete="off" class="layui-input" type="text"/>
-                </div>
-                <label class="layui-form-label">手机号</label>
-                <div class="layui-input-inline">
-                    <input id="userPhone" name="userPhone" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">注册时间</label>
-                        <div class="layui-input-inline" style="width: 175px;">
-                            <input  name="startTime" id="startTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>后台信息管理系统</title>
+
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+
+<!-- Toastr style -->
+<link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet"/>
+
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+
+<!-- summernote style -->
+<link th:href="@{/css/plugins/summernote/summernote.css}" rel="stylesheet" />
+<link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+		<nav class="navbar-default navbar-static-side" role="navigation" th:include="nav :: navigation"></nav>
+		<div id="page-wrapper" class="gray-bg">
+        	<div class="border-bottom" th:include="header :: headerTop"></div>
+      		<div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
+		   		<div class="col-lg-10">
+		     		<h2>系统管理</h2>
+		          	<ol class="breadcrumb">
+			            <li>
+			            	<a href="#">首页</a>
+			            </li>
+			            <li>
+			            	<a>系统管理</a>
+			         	</li>
+
+			          	<li class="active">
+			             	<strong>信息修改</strong>
+			          	</li>
+					</ol>
+		      	</div>
+		      	<div class="col-lg-2">
+		      	</div>
+		  	</div>
+        	<div class="wrapper wrapper-content animated fadeInRight">
+            
+            
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>信息修改</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
                         </div>
-                    <div class="layui-form-mid">-</div>
-                        <div class="layui-input-inline" style="width: 175px;">
-                            <input name="endTime" id="endTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                        <div class="ibox-content">
+                            <form id="formTag" action="userManage" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                            	
+                                <div class="form-group"><label class="col-sm-2 control-label">账号：</label>
+                                    <div class="col-sm-10">
+                                        <input id="userName" name="userName" type="text" class="form-control" readonly="readonly" th:value="${user.userName}"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">密码：</label>
+                                    <div class="col-sm-10">
+                                        <input id="password" name="password" type="text" class="form-control" th:value="${user.password}"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">真实姓名：</label>
+                                    <div class="col-sm-10">
+                                        <input id="realName" name="realName" type="text" class="form-control" th:value="${user.realName}"/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">岗位：</label>
+                                    <div class="col-sm-10">
+                                        <input id="business" name="business" type="text" class="form-control" th:value="${user.business}"/>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">邮箱：</label>
+                                    <div class="col-sm-10">
+                                        <input id="email" name="email" type="text" class="form-control" th:value="${user.email}"/>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button id="submitButton" class="btn btn-primary" type="button">&nbsp;&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;&nbsp;交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    <button class="layui-btn"  lay-submit="" lay-filter="searchSubmit">提交</button>
+                    </div>
                 </div>
             </div>
-        </form>
-
-        <!--<hr class="layui-bg-blue"/>-->
-        <hr class="layui-bg-black"/>
-
-        <button class="layui-btn layui-btn-normal" onclick="addUser()">开通用户</button>
-
-        <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
-
-        <table id="uesrList" lay-filter="userTable"></table>
-
-        <script type="text/html" id="optBar">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            {{#  if(d.userStatus == '0'){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a>
-            {{#  } else { }}
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-            {{#  } }}
-        </script>
-    </div>
-
-
-    <!--添加或编辑用户-->
-    <div id="setUser" class="layer_self_wrap" style="width:500px;display:none;">
-        <form id="userForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <input id="pageNum" type="hidden" name="pageNum"/>
-            <input id="id" type="hidden" name="id"/>
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    <input id="username" name="sysUserName" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
-                </div>
+            
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">角色类型</label>
-                <div class="layui-input-inline">
-                    <select name="roleId"  id="roleId" >
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">手机号</label>
-                <div class="layui-input-inline">
-                    <input id="mobile" name="userPhone" lay-verify="required" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">密码</label>
-                <div class="layui-input-inline">
-                    <input id="password" name="sysUserPwd" autocomplete="off" class="layui-input" type="password" placeholder="默认初始密码：123456" />
-                </div>
-                <div class="layui-form-mid layui-word-aux">请填写6位以上的密码</div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block" style="margin-left: 10px;">
-                    <button class="layui-btn"  lay-submit="" lay-filter="userSubmit">提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
-    </div>
+        	<div class="footer" th:include="footer :: copyright"></div>
+      	</div>
+	</div>
+	
+    <!-- Mainly scripts -->
+    <script th:src="@{/js/jquery-2.1.1.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+    <script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	
+    <!-- Peity -->
+    <script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
+    
+    <!-- Custom and plugin javascript -->
+    <script th:src="@{/js/inspinia.js}"></script>
+    <script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+    
+    <!-- Toastr script -->
+    <script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
+    
+    <!-- common -->
+    <script th:src="@{/js/common.js}"></script>
+    
+    <!-- SUMMERNOTE -->
+    <script th:src="@{/js/plugins/summernote/summernote.min.js}"></script>
+    
 
-    <!--底部-->
-    <div th:replace="fragments/footer :: footer"></div>
-    <script src="/js/dateUtils.js"></script>
-    <script src="/js/sysUser/userList.js"></script>
+    
+    <script th:inline="javascript">
 
-</div>
+		$(document).ready(function () {
+			//提交
+			$("#submitButton").click(function(){
+
+				$("#formTag").submit();
+			});
+		});
+    </script>
+
 </body>
+
 </html>
