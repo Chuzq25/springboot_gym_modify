@@ -1,10 +1,7 @@
 package com.jesper;
 
-import com.jesper.util.RunnableThreadWebCount;
-import com.jesper.util.Timers;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class Application {
