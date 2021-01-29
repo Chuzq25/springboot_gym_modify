@@ -199,15 +199,15 @@ public class ItemController {
         return "redirect:itemManage_0_0_0";
     }
 
-    @GetMapping(value = "/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<?> getFile() {
-        try {
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, imageName).toString()));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping(value = "/{filename:.+}")
+//    @ResponseBody
+//    public ResponseEntity<?> getFile() {
+//        try {
+//            return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, imageName).toString()));
+//        } catch (Exception e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @ResponseBody
     @PostMapping("/user/itemEditState")
